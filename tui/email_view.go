@@ -206,13 +206,13 @@ func (m *EmailView) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if m.focusOnAttachments {
 			switch msg.String() {
 			case "up", kb.Global.NavUp:
-				if m.attachmentCursor > 0 {
-					m.attachmentCursor--
+				if len(m.email.Attachments) > 0 {
+					m.attachmentCursor = (m.attachmentCursor - 1 + len(m.email.Attachments)) % len(m.email.Attachments)
 				}
 				return m, nil
 			case "down", kb.Global.NavDown:
-				if m.attachmentCursor < len(m.email.Attachments)-1 {
-					m.attachmentCursor++
+				if len(m.email.Attachments) > 0 {
+					m.attachmentCursor = (m.attachmentCursor + 1) % len(m.email.Attachments)
 				}
 				return m, nil
 			case "enter":
