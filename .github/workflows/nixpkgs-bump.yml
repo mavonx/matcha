@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: floatpane/nixpkgs
-          token: ${{ secrets.NIXPKGS_BUMP_TOKEN }}
+          token: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
           path: nixpkgs
           fetch-depth: 0
 
@@ -145,7 +145,7 @@ jobs:
       - name: Open PR against NixOS/nixpkgs
         if: steps.ver.outputs.skip != 'true'
         env:
-          GH_TOKEN: ${{ secrets.NIXPKGS_BUMP_TOKEN }}
+          GH_TOKEN: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
         working-directory: nixpkgs
         run: |
           BODY=$(cat <<EOF
