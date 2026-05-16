@@ -495,6 +495,7 @@ func (m *mainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.folderInbox.SetDateFormat(m.config.GetDateFormat())
 		m.folderInbox.SetDetailedDates(m.config.EnableDetailedDates)
 		m.folderInbox.SetDefaultThreaded(m.config.EnableThreaded)
+		m.folderInbox.SetDisableImages(m.config.DisableImages)
 		// Use cached INBOX emails for instant display (memory first, then disk)
 		if cached, ok := m.folderEmails["INBOX"]; ok && len(cached) > 0 {
 			m.folderInbox.SetEmails(cached, m.config.Accounts)
@@ -1092,6 +1093,7 @@ func (m *mainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.folderInbox.SetDateFormat(m.config.GetDateFormat())
 			m.folderInbox.SetDetailedDates(m.config.EnableDetailedDates)
 			m.folderInbox.SetDefaultThreaded(m.config.EnableThreaded)
+			m.folderInbox.SetDisableImages(m.config.DisableImages)
 		}
 		return m, nil
 
