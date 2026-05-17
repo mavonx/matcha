@@ -1,6 +1,7 @@
 package config
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -45,6 +46,8 @@ type Account struct {
 	// CatchAll skips per-address filtering so all inbox messages are shown,
 	// regardless of which address they were delivered to.
 	CatchAll bool `json:"catch_all,omitempty"`
+
+	ClientSessionCache tls.ClientSessionCache `json:"-"` // "-" prevents the ClientSessionCache from being saved to config.json
 
 	// Custom server settings (used when ServiceProvider is "custom")
 	IMAPServer string `json:"imap_server,omitempty"`
@@ -241,6 +244,12 @@ func (a *Account) GetSMTPPort() int {
 		return 587 // Default SMTP TLS port
 	default:
 		return 587
+	}
+}
+
+func (a *Account) EnsureSessionCache() {
+	if a.ClientSessionCache == nil {
+		a.ClientSessionCache = tls.NewLRUClientSessionCache(64)
 	}
 }
 

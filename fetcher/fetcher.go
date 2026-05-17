@@ -371,11 +371,18 @@ func connectWithOptions(account *config.Account, extraOpts *imapclient.Options) 
 
 	addr := fmt.Sprintf("%s:%d", imapServer, imapPort)
 
+	account.EnsureSessionCache()
+
 	options := &imapclient.Options{
 		TLSConfig: &tls.Config{
 			ServerName:         imapServer,
 			InsecureSkipVerify: account.Insecure,
 			MinVersion:         tls.VersionTLS12,
+			ClientSessionCache: account.ClientSessionCache,
+			VerifyConnection: func(cs tls.ConnectionState) error {
+				log.Printf("SMTP connection resumed: %t", cs.DidResume)
+				return nil
+			},
 		},
 	}
 	if extraOpts != nil {

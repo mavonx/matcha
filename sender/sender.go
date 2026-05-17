@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"mime"
 	"mime/multipart"
 	"mime/quotedprintable"
@@ -656,10 +657,17 @@ func SendEmail(account *config.Account, to, cc, bcc []string, subject, plainBody
 
 	addr := fmt.Sprintf("%s:%d", smtpServer, smtpPort)
 
+	account.EnsureSessionCache()
+
 	tlsConfig := &tls.Config{
 		ServerName:         smtpServer,
 		InsecureSkipVerify: account.Insecure,
 		MinVersion:         tls.VersionTLS12,
+		ClientSessionCache: account.ClientSessionCache,
+		VerifyConnection: func(cs tls.ConnectionState) error {
+			log.Printf("SMTP connection resumed: %t", cs.DidResume)
+			return nil
+		},
 	}
 
 	var c *smtp.Client
@@ -870,10 +878,18 @@ func SendCalendarReply(account *config.Account, to []string, subject, plainBody 
 
 	// Send via SMTP
 	addr := fmt.Sprintf("%s:%d", smtpServer, smtpPort)
+
+	account.EnsureSessionCache()
+
 	tlsConfig := &tls.Config{
 		ServerName:         smtpServer,
 		InsecureSkipVerify: account.Insecure,
 		MinVersion:         tls.VersionTLS12,
+		ClientSessionCache: account.ClientSessionCache,
+		VerifyConnection: func(cs tls.ConnectionState) error {
+			log.Printf("SMTP connection resumed: %t", cs.DidResume)
+			return nil
+		},
 	}
 
 	var c *smtp.Client
