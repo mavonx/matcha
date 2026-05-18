@@ -247,12 +247,6 @@ func (a *Account) GetSMTPPort() int {
 	}
 }
 
-func (a *Account) EnsureSessionCache() {
-	if a.ClientSessionCache == nil {
-		a.ClientSessionCache = tls.NewLRUClientSessionCache(64)
-	}
-}
-
 // GetFetchEmail returns the configured fetch identity, falling back to Email.
 func (a *Account) GetFetchEmail() string {
 	if a.FetchEmail != "" {
@@ -640,6 +634,7 @@ func LoadConfig() (*Config, error) {
 			POP3Server:         rawAcc.POP3Server,
 			POP3Port:           rawAcc.POP3Port,
 			CatchAll:           rawAcc.CatchAll,
+			ClientSessionCache: tls.NewLRUClientSessionCache(64),
 		}
 
 		// Validate PGPKeySource

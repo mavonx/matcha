@@ -5,6 +5,7 @@ import (
 	"archive/zip"
 	"compress/gzip"
 	"context"
+	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -414,20 +415,21 @@ func (m *mainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// New account: create one account per fetch email address
 			for _, fe := range fetchEmails {
 				account := config.Account{
-					ID:              uuid.New().String(),
-					Name:            msg.Name,
-					Email:           msg.Host,
-					Password:        msg.Password,
-					ServiceProvider: msg.Provider,
-					FetchEmail:      fe,
-					SendAsEmail:     msg.SendAsEmail,
-					CatchAll:        msg.CatchAll,
-					AuthMethod:      msg.AuthMethod,
-					Protocol:        msg.Protocol,
-					JMAPEndpoint:    msg.JMAPEndpoint,
-					POP3Server:      msg.POP3Server,
-					POP3Port:        msg.POP3Port,
-					MaildirPath:     msg.MaildirPath,
+					ID:                 uuid.New().String(),
+					Name:               msg.Name,
+					Email:              msg.Host,
+					Password:           msg.Password,
+					ServiceProvider:    msg.Provider,
+					FetchEmail:         fe,
+					SendAsEmail:        msg.SendAsEmail,
+					CatchAll:           msg.CatchAll,
+					AuthMethod:         msg.AuthMethod,
+					Protocol:           msg.Protocol,
+					JMAPEndpoint:       msg.JMAPEndpoint,
+					POP3Server:         msg.POP3Server,
+					POP3Port:           msg.POP3Port,
+					MaildirPath:        msg.MaildirPath,
+					ClientSessionCache: tls.NewLRUClientSessionCache(64),
 				}
 
 				if msg.Provider == "custom" || msg.Protocol == "pop3" {

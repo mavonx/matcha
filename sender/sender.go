@@ -657,15 +657,13 @@ func SendEmail(account *config.Account, to, cc, bcc []string, subject, plainBody
 
 	addr := fmt.Sprintf("%s:%d", smtpServer, smtpPort)
 
-	account.EnsureSessionCache()
-
 	tlsConfig := &tls.Config{
 		ServerName:         smtpServer,
 		InsecureSkipVerify: account.Insecure,
 		MinVersion:         tls.VersionTLS12,
 		ClientSessionCache: account.ClientSessionCache,
 		VerifyConnection: func(cs tls.ConnectionState) error {
-			log.Printf("SMTP connection resumed: %t", cs.DidResume)
+			log.Printf("SMTP TLS connection resumed: %t", cs.DidResume)
 			return nil
 		},
 	}
@@ -879,15 +877,13 @@ func SendCalendarReply(account *config.Account, to []string, subject, plainBody 
 	// Send via SMTP
 	addr := fmt.Sprintf("%s:%d", smtpServer, smtpPort)
 
-	account.EnsureSessionCache()
-
 	tlsConfig := &tls.Config{
 		ServerName:         smtpServer,
 		InsecureSkipVerify: account.Insecure,
 		MinVersion:         tls.VersionTLS12,
 		ClientSessionCache: account.ClientSessionCache,
 		VerifyConnection: func(cs tls.ConnectionState) error {
-			log.Printf("SMTP connection resumed: %t", cs.DidResume)
+			log.Printf("SMTP TLS connection resumed: %t", cs.DidResume)
 			return nil
 		},
 	}
