@@ -232,6 +232,13 @@ func (a *Account) GetSMTPServer() string {
 	}
 }
 
+func (a *Account) GetClientSessionCache() tls.ClientSessionCache {
+	if a.ClientSessionCache == nil {
+		a.ClientSessionCache = tls.NewLRUClientSessionCache(64)
+	}
+	return a.ClientSessionCache
+}
+
 // GetSMTPPort returns the SMTP port for the account.
 func (a *Account) GetSMTPPort() int {
 	switch a.ServiceProvider {
@@ -634,7 +641,6 @@ func LoadConfig() (*Config, error) {
 			POP3Server:         rawAcc.POP3Server,
 			POP3Port:           rawAcc.POP3Port,
 			CatchAll:           rawAcc.CatchAll,
-			ClientSessionCache: tls.NewLRUClientSessionCache(64),
 		}
 
 		// Validate PGPKeySource

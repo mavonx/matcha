@@ -376,7 +376,7 @@ func connectWithOptions(account *config.Account, extraOpts *imapclient.Options) 
 			ServerName:         imapServer,
 			InsecureSkipVerify: account.Insecure,
 			MinVersion:         tls.VersionTLS12,
-			ClientSessionCache: account.ClientSessionCache,
+			ClientSessionCache: account.GetClientSessionCache(),
 			VerifyConnection: func(cs tls.ConnectionState) error {
 				log.Printf("IMAP TLS connection resumed: %t", cs.DidResume)
 				return nil
