@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/google/uuid"
 	"github.com/zalando/go-keyring"
@@ -48,6 +49,7 @@ type Account struct {
 	CatchAll bool `json:"catch_all,omitempty"`
 
 	ClientSessionCache tls.ClientSessionCache `json:"-"` // "-" prevents the ClientSessionCache from being saved to config.json
+	sessionCacheOnce   sync.Once              `json:"-"` // "-" prevents the sessionCacheOnce from being saved to config.json
 
 	// Custom server settings (used when ServiceProvider is "custom")
 	IMAPServer string `json:"imap_server,omitempty"`
@@ -233,9 +235,10 @@ func (a *Account) GetSMTPServer() string {
 }
 
 func (a *Account) GetClientSessionCache() tls.ClientSessionCache {
-	if a.ClientSessionCache == nil {
+	a.sessionCacheOnce.Do(func() {
 		a.ClientSessionCache = tls.NewLRUClientSessionCache(64)
-	}
+	})
+
 	return a.ClientSessionCache
 }
 
