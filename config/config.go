@@ -31,6 +31,11 @@ const (
 	DateFormatEU  = "DD/MM/YYYY HH:MM"
 )
 
+type SessionCache struct {
+	once  sync.Once
+	cache tls.ClientSessionCache
+}
+
 // Account stores the configuration for a single email account.
 type Account struct {
 	ID              string `json:"id"`
@@ -48,8 +53,7 @@ type Account struct {
 	// regardless of which address they were delivered to.
 	CatchAll bool `json:"catch_all,omitempty"`
 
-	ClientSessionCache tls.ClientSessionCache `json:"-"` // "-" prevents the ClientSessionCache from being saved to config.json
-	sessionCacheOnce   sync.Once              `json:"-"` // "-" prevents the sessionCacheOnce from being saved to config.json
+	SC *SessionCache `json:"-"` // "-" prevents the SessionCache from being saved to config.json
 
 	// Custom server settings (used when ServiceProvider is "custom")
 	IMAPServer string `json:"imap_server,omitempty"`
@@ -235,11 +239,11 @@ func (a *Account) GetSMTPServer() string {
 }
 
 func (a *Account) GetClientSessionCache() tls.ClientSessionCache {
-	a.sessionCacheOnce.Do(func() {
-		a.ClientSessionCache = tls.NewLRUClientSessionCache(64)
+	a.SC.once.Do(func() {
+		a.SC.cache = tls.NewLRUClientSessionCache(64)
 	})
 
-	return a.ClientSessionCache
+	return a.SC.cache
 }
 
 // GetSMTPPort returns the SMTP port for the account.
@@ -593,6 +597,7 @@ func LoadConfig() (*Config, error) {
 						Password:        legacyConfig.Password,
 						ServiceProvider: legacyConfig.ServiceProvider,
 						FetchEmail:      legacyConfig.Email,
+						SC:              &SessionCache{},
 					},
 				},
 			}
@@ -644,6 +649,7 @@ func LoadConfig() (*Config, error) {
 			POP3Server:         rawAcc.POP3Server,
 			POP3Port:           rawAcc.POP3Port,
 			CatchAll:           rawAcc.CatchAll,
+			SC:                 &SessionCache{},
 		}
 
 		// Validate PGPKeySource
