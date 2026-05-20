@@ -39,7 +39,10 @@
       "exit_confirm": "Sind Sie sicher, dass Sie beenden möchten? Dieser Entwurf wird gespeichert",
       "sending": "E-Mail wird gesendet...",
       "sent": "E-Mail erfolgreich gesendet",
-      "draft_saved": "Entwurf gespeichert"
+      "draft_saved": "Entwurf gespeichert",
+      "invalid_email": "✗ Ungültige E-Mail-Adresse",
+      "invalid_email_fields": "Ein oder mehrere E-Mail-Felder sind ungültig",
+      "recipient_required": "Mindestens einen Empfänger hinzufügen"
     },
     "inbox": {
       "title": "Posteingang",
@@ -170,6 +173,12 @@
       "disable_confirm": "Verschlüsselung deaktivieren?",
       "disable_warning": "Alle Daten werden unverschlüsselt gespeichert.",
       "encrypting": "Daten werden verschlüsselt...",
+      "passwords_match": "✓ Passwörter stimmen überein",
+      "passwords_do_not_match": "✗ Passwörter stimmen nicht überein",
+      "strength_label": "Stärke:",
+      "strength_weak": "schwach",
+      "strength_medium": "mittel",
+      "strength_strong": "stark",
       "error_empty": "Passwort darf nicht leer sein",
       "error_mismatch": "Passwörter stimmen nicht überein",
       "help": "tab: nächstes • enter: speichern"

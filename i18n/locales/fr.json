@@ -39,7 +39,10 @@
       "exit_confirm": "Êtes-vous sûr de vouloir quitter ? Ce brouillon sera sauvegardé",
       "sending": "Envoi de l'e-mail...",
       "sent": "E-mail envoyé avec succès",
-      "draft_saved": "Brouillon sauvegardé"
+      "draft_saved": "Brouillon sauvegardé",
+      "invalid_email": "✗ Adresse e-mail invalide",
+      "invalid_email_fields": "Un ou plusieurs champs e-mail sont invalides",
+      "recipient_required": "Ajoutez au moins un destinataire"
     },
     "inbox": {
       "title": "Boîte de réception",
@@ -170,6 +173,12 @@
       "disable_confirm": "Désactiver le chiffrement ?",
       "disable_warning": "Toutes les données seront stockées non chiffrées.",
       "encrypting": "Chiffrement des données...",
+      "passwords_match": "✓ Les mots de passe correspondent",
+      "passwords_do_not_match": "✗ Les mots de passe ne correspondent pas",
+      "strength_label": "Force :",
+      "strength_weak": "faible",
+      "strength_medium": "moyen",
+      "strength_strong": "fort",
       "error_empty": "Le mot de passe ne peut pas être vide",
       "error_mismatch": "Les mots de passe ne correspondent pas",
       "help": "tab: suivant • entrée: enregistrer"

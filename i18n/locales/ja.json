@@ -39,7 +39,10 @@
       "exit_confirm": "終了してもよろしいですか?この下書きは保存されます",
       "sending": "メール送信中...",
       "sent": "メールが正常に送信されました",
-      "draft_saved": "下書きを保存しました"
+      "draft_saved": "下書きを保存しました",
+      "invalid_email": "✗ 無効なメールアドレス",
+      "invalid_email_fields": "1つ以上のメールフィールドが無効です",
+      "recipient_required": "少なくとも1人の宛先を追加してください"
     },
     "inbox": {
       "title": "受信トレイ",
@@ -168,6 +171,12 @@
       "disable_confirm": "暗号化を無効にしますか?",
       "disable_warning": "すべてのデータは暗号化されずに保存されます。",
       "encrypting": "データを暗号化中...",
+      "passwords_match": "✓ パスワードが一致しました",
+      "passwords_do_not_match": "✗ パスワードが一致しません",
+      "strength_label": "強度:",
+      "strength_weak": "弱い",
+      "strength_medium": "普通",
+      "strength_strong": "強い",
       "error_empty": "パスワードを空にすることはできません",
       "error_mismatch": "パスワードが一致しません",
       "help": "tab: 次へ • enter: 保存"
