@@ -10,7 +10,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"mime"
 	"mime/multipart"
 	"mime/quotedprintable"
@@ -26,6 +25,7 @@ import (
 	"github.com/emersion/go-pgpmail"
 	"github.com/floatpane/matcha/clib"
 	"github.com/floatpane/matcha/config"
+	"github.com/floatpane/matcha/internal/loglevel"
 	"github.com/floatpane/matcha/pgp"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
@@ -663,7 +663,7 @@ func SendEmail(account *config.Account, to, cc, bcc []string, subject, plainBody
 		MinVersion:         tls.VersionTLS12,
 		ClientSessionCache: account.GetClientSessionCache(),
 		VerifyConnection: func(cs tls.ConnectionState) error {
-			log.Printf("SMTP TLS connection resumed: %t", cs.DidResume)
+			loglevel.Debugf("SMTP TLS connection resumed: %t", cs.DidResume)
 			return nil
 		},
 	}
@@ -883,7 +883,7 @@ func SendCalendarReply(account *config.Account, to []string, subject, plainBody 
 		MinVersion:         tls.VersionTLS12,
 		ClientSessionCache: account.GetClientSessionCache(),
 		VerifyConnection: func(cs tls.ConnectionState) error {
-			log.Printf("SMTP TLS connection resumed: %t", cs.DidResume)
+			loglevel.Debugf("SMTP TLS connection resumed: %t", cs.DidResume)
 			return nil
 		},
 	}
